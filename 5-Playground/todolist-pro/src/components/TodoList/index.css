@@ -1,0 +1,9 @@
+.todolist-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.todo-list {
+  /* background-color: red; */
+  width: 97%;
+}

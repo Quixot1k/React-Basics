@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dom Diff</title>
+  </head>
+  <body>
+    <!-- prepare a container -->
+    <div id="container"></div>
+    <!-- import react -->
+    <!--引入prop-types 对组件标签属性进行限制-->
+    <script src="../../js/prop-types.js" type="text/javascript"></script>
+    <script src="../js/react.development.js" type="text/javascript"></script>
+    <script
+      src="../js/react-dom.development.js"
+      type="text/javascript"
+    ></script>
+    <script src="../js/babel.min.js" type="text/javascript"></script>
+    <!-- Babel: translate jsx to js -->
+    <script type="text/babel">
+      class MyComponent extends React.Component {
+        state = {
+          member: [
+            { id: 1, name: "Sam", age: 22 },
+            { id: 2, name: "Bob", age: 21 },
+          ],
+        };
+
+        render() {
+          return (
+            <div>
+              <h2>Members</h2>
+              <input
+                ref={(curNode) => {
+                  this.nameInput = curNode;
+                }}
+                type="text"
+                placeholder="Please input name"
+              />
+              <input
+                ref={(curNode) => {
+                  this.ageInput = curNode;
+                }}
+                type="text"
+                placeholder="Please input age"
+              />
+              <button onClick={this.addMember}>Add Member</button>
+              <ul>
+                {this.state.member.map((memberObj) => {
+                  return (
+                    <li key={memberObj.id}>
+                      {memberObj.name}---{memberObj.age}
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          );
+        }
+
+        addMember = (event) => {
+          let nameInput = this.nameInput;
+          let ageInput = this.ageInput;
+          let name = nameInput.value;
+          let age = ageInput.value;
+          if (name == "" || age == "") {
+            alert("Please input valid personal information");
+          } else {
+            const { member } = this.state;
+            const newMember = { id: member.length + 1, name: name, age: age };
+            this.setState({ member: [newMember, ...member] });
+            alert("name: " + name + "\n" + "age: " + age);
+            nameInput.value = "";
+            ageInput.value = "";
+          }
+        };
+      }
+      ReactDOM.render(<MyComponent />, document.getElementById("container"));
+    </script>
+  </body>
+</html>

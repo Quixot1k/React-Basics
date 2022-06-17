@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Props</title>
+  </head>
+  <body>
+    <!-- prepare a container -->
+    <div id="container"></div>
+
+    <!-- import react -->
+    <!--引入prop-types 对组件标签属性进行限制-->
+    <script src="../../js/prop-types.js" type="text/javascript"></script>
+    <script src="../js/react.development.js" type="text/javascript"></script>
+    <script
+      src="../js/react-dom.development.js"
+      type="text/javascript"
+    ></script>
+    <script src="../js/babel.min.js" type="text/javascript"></script>
+    <!-- Babel: translate jsx to js -->
+    <script type="text/babel">
+      class Board extends React.Component {
+        // 初始化state
+        state = {};
+
+        // 属性prop类型限制
+        static propTypes = {
+          name: PropTypes.string.isRequired,
+          gender: PropTypes.string,
+          age: PropTypes.number,
+        };
+        // 属性prop默认值设置
+        static defaultProps = {
+          gender: "unknown",
+        };
+        // render()
+        render() {
+          const { name, gender, age } = this.props;
+          return (
+            <ul>
+              <li>name: {name}</li>
+              <li>gender: {gender}</li>
+              <li>age: {age}</li>
+            </ul>
+          );
+        }
+        // 自定义方法
+        foo = () => {};
+      }
+
+      ReactDOM.render(
+        <Board name={"Alice"} age={18} />,
+        document.getElementById("container")
+      );
+    </script>
+  </body>
+</html>

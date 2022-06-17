@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Component</title>
+  </head>
+  <body>
+    <!-- prepare a container -->
+    <div id="container"></div>
+
+    <!-- import react -->
+    <!--引入prop-types 对组件标签属性进行限制-->
+    <script src="../../js/prop-types.js" type="text/javascript"></script>
+    <script src="../js/react.development.js" type="text/javascript"></script>
+    <script
+      src="../js/react-dom.development.js"
+      type="text/javascript"
+    ></script>
+    <script src="../js/babel.min.js" type="text/javascript"></script>
+    <!-- Babel: translate jsx to js -->
+    <script type="text/babel">
+      class Login extends React.Component {
+        state = {
+          username: "",
+          password: "",
+        };
+
+        render() {
+          return (
+            <form action="" onSubmit={this.handleSubmit}>
+              Username:{" "}
+              <input onChange={this.saveUsername} type="text" name="username" />
+              Password:{" "}
+              <input
+                onChange={this.savePassword}
+                type="password"
+                name="password"
+              />
+              <button type="submit">login</button>
+            </form>
+          );
+        }
+
+        handleSubmit = (event) => {
+          // 阻止表单提交
+          event.preventDefault();
+          let { username, password } = this.state;
+          alert(username + "\n" + password);
+        };
+
+        saveUsername = (event) => {
+          console.log(event.target.value);
+          this.setState({ username: event.target.value });
+        };
+
+        savePassword = (event) => {
+          console.log(event.target.value);
+          this.setState({ password: event.target.value });
+        };
+      }
+
+      ReactDOM.render(<Login />, document.getElementById("container"));
+    </script>
+  </body>
+</html>

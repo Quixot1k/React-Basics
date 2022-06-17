@@ -1,0 +1,28 @@
+.header {
+  background-color: royalblue;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 4rem;
+  border-radius: 3px;
+}
+.header__title {
+  color: aliceblue;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  font-style: oblique;
+}
+.icon {
+  color: aliceblue;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  font-weight: bold;
+  margin-left: 1rem;
+  transform: scale(1.8) translateY(-0.5px);
+  transition: all 0.3s;
+}
+.icon:hover {
+  cursor: pointer;
+  transform: scale(2) translateY(-0.5px);
+  color: #fff;
+}

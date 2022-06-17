@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Life Cycle</title>
+    <style>
+      .list {
+        width: 100px;
+        height: 150px;
+        background-color: skyblue;
+        overflow: auto;
+      }
+      .news {
+        height: 30px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- prepare a container -->
+    <div id="container"></div>
+    <!-- import react -->
+    <!--引入prop-types 对组件标签属性进行限制-->
+    <script src="../../js/prop-types.js" type="text/javascript"></script>
+    <script src="../js/react.development.js" type="text/javascript"></script>
+    <script
+      src="../js/react-dom.development.js"
+      type="text/javascript"
+    ></script>
+    <script src="../js/babel.min.js" type="text/javascript"></script>
+    <!-- Babel: translate jsx to js -->
+    <script type="text/babel">
+      class NewsList extends React.Component {
+        state = { newsContent: [] };
+
+        componentDidMount() {
+          setInterval(() => {
+            let { newsContent } = this.state;
+            const news = newsContent.length + 1;
+            this.setState({ newsContent: [news, ...newsContent] });
+          }, 500);
+        }
+
+        getSnapshotBeforeUpdate() {
+          return this.refs.list.scrollHeight;
+        }
+
+        componentDidUpdate(props, state, height) {
+          this.refs.list.scrollTop += this.refs.list.scrollHeight - height;
+        }
+
+        render() {
+          return (
+            <div ref="list" className="list">
+              {this.state.newsContent.map((n, index) => {
+                return (
+                  <div className="news" key={index}>
+                    this is news {n}
+                  </div>
+                );
+              })}
+            </div>
+          );
+        }
+      }
+      ReactDOM.render(<NewsList />, document.getElementById("container"));
+    </script>
+  </body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Refs</title>
+  </head>
+  <body>
+    <!-- prepare a container -->
+    <div id="container"></div>
+
+    <!-- import react -->
+    <!--引入prop-types 对组件标签属性进行限制-->
+    <script src="../../js/prop-types.js" type="text/javascript"></script>
+    <script src="../js/react.development.js" type="text/javascript"></script>
+    <script
+      src="../js/react-dom.development.js"
+      type="text/javascript"
+    ></script>
+    <script src="../js/babel.min.js" type="text/javascript"></script>
+    <!-- Babel: translate jsx to js -->
+    <script type="text/babel">
+      class MyComponent extends React.Component {
+        state = {};
+
+        static propTypes = {};
+        static defaultProps = {};
+
+        render() {
+          return (
+            <div>
+              <input
+                ref="input1"
+                type="text"
+                placeholder="click to show info"
+              />
+              <button ref="btn" onClick={this.showData1}>
+                click me to show info on the left
+              </button>
+              <input
+                ref="input2"
+                onBlur={this.showData2}
+                type="text"
+                placeholder="lose focus and remind"
+              />
+            </div>
+          );
+        }
+
+        showData1 = () => {
+          console.log(this);
+          let inputBox = this.refs.input1;
+          alert(inputBox.value + " work!");
+        };
+
+        showData2 = () => {
+          console.log(this);
+          let inputBox = this.refs.input2;
+          alert(inputBox.value + " work!");
+        };
+      }
+
+      ReactDOM.render(<MyComponent />, document.getElementById("container"));
+    </script>
+  </body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Refs</title>
+  </head>
+  <body>
+    <!-- prepare a container -->
+    <div id="container"></div>
+
+   <!-- import react -->
+    <!--引入prop-types 对组件标签属性进行限制-->
+    <script src="../../js/prop-types.js" type="text/javascript"></script>
+    <script src="../js/react.development.js" type="text/javascript"></script>
+    <script
+      src="../js/react-dom.development.js"
+      type="text/javascript"
+    ></script>
+    <script src="../js/babel.min.js" type="text/javascript"></script>
+    <!-- Babel: translate jsx to js -->
+    <script type="text/babel">
+      class MyComponent extends React.Component {
+        state = {};
+
+        static propTypes = {};
+        static defaultProps = {};
+
+        render() {
+          return (
+            <div>
+              {/*ref内联函数回调写法*/}
+              <input
+                ref={(currentNode) => {
+                  this.inputBox = currentNode;
+                  console.log("@", currentNode);
+                }}
+                type="text"
+                placeholder="click to show info"
+              />
+              <button ref="btn" onClick={this.showData}>
+                show data
+              </button>
+            </div>
+          );
+        }
+
+        showData = () => {
+          console.log(this);
+          let inputBox = this.inputBox;
+          alert(inputBox.value + " work!");
+        };
+      }
+
+      ReactDOM.render(<MyComponent />, document.getElementById("container"));
+    </script>
+  </body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>useEffect</title>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script src="../js/react.development.js" type="text/javascript"></script>
+    <script
+      src="../js/react-dom.development.js"
+      type="text/javascript"
+    ></script>
+    <script src="../js/babel.min.js" type="text/javascript"></script>
+
+    <script type="text/babel">
+      // Function Component
+      function Demo() {
+        // State
+        const [counter, setCounter] = React.useState(0);
+        // Effect
+        React.useEffect(() => {
+          let timer = setInterval(() => {
+            setCounter((counter) => counter + 1);
+          }, 1000);
+          return () => {
+            clearInterval(timer);
+          };
+        }, []);
+
+        const unmount = () => {
+          ReactDOM.unmountComponentAtNode(document.getElementById("root"));
+        };
+        return (
+          <div>
+            <h1>Counter: {counter}</h1>
+            <button onClick={() => setCounter(counter + 1)}>Add</button>
+            <button onClick={unmount}>Unmount</button>
+          </div>
+        );
+      }
+
+      ReactDOM.render(<Demo />, document.getElementById("root"));
+    </script>
+  </body>
+</html>

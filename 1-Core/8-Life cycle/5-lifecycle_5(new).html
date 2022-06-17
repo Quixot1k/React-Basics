@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Life Cycle</title>
+  </head>
+  <body>
+    <!-- prepare a container -->
+    <div id="container"></div>
+
+    <!-- import react -->
+    <!--引入prop-types 对组件标签属性进行限制-->
+    <script src="../../js/prop-types.js" type="text/javascript"></script>
+    <script src="../js/react.development.js" type="text/javascript"></script>
+    <script
+      src="../js/react-dom.development.js"
+      type="text/javascript"
+    ></script>
+    <script src="../js/babel.min.js" type="text/javascript"></script>
+    <!-- Babel: translate jsx to js -->
+    <script type="text/babel">
+      class MyComponent extends React.Component {
+        state = { likes: 0, hates: 0 };
+
+        // UNSAFE_componentWillMount(){
+        //     console.log('componentWillMount')
+        // }
+
+        // <--- state总是取决于props --->
+        static getDerivedStateFromProps(props, state) {
+          console.log("getDerivedStateFromProps", props, state);
+          // return props
+          return null;
+        }
+
+        componentDidMount() {
+          console.log("componentDidMount");
+        }
+
+        componentWillUnmount() {
+          console.log("componentWillUnmount");
+        }
+
+        shouldComponentUpdate() {
+          console.log("shouldComponentUpdate");
+          return true;
+        }
+
+        // UNSAFE_componentWillUpdate(){
+        //     console.log('componentWillUpdate')
+        // }
+
+        // <--- 组件卸载前保存信息 --->
+        getSnapshotBeforeUpdate(props, state) {
+          console.log("getSnapshotBeforeUpdate", props, state);
+          return "Snapshot";
+        }
+
+        componentDidUpdate(props, state, snapshotValue) {
+          console.log("componentDidUpdate", props, state, snapshotValue);
+        }
+
+        render() {
+          console.log("render");
+          return (
+            <div>
+              <h2>Enjoy React !</h2>
+              <button onClick={this.addLikes}>Let's Go!</button>
+              <button onClick={this.addHates}>Disappointed!</button>
+              <h2>Likes {this.state.likes}</h2>
+              <h2>Hates {this.state.hates}</h2>
+            </div>
+          );
+        }
+
+        addLikes = () => {
+          let { likes } = this.state;
+          likes = likes + 1;
+          this.setState({ likes });
+        };
+
+        addHates = () => {
+          this.forceUpdate();
+          let { hates } = this.state;
+          hates = hates + 1;
+          this.setState({ hates });
+        };
+      }
+
+      ReactDOM.render(
+        <MyComponent likes={999} />,
+        document.getElementById("container")
+      );
+    </script>
+  </body>
+</html>

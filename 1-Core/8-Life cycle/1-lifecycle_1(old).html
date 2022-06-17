@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Life Cycle</title>
+  </head>
+  <body>
+    <!-- prepare a container -->
+    <div id="container"></div>
+    <!-- import react -->
+    <!--引入prop-types 对组件标签属性进行限制-->
+    <script src="../../js/prop-types.js" type="text/javascript"></script>
+    <script src="../js/react.development.js" type="text/javascript"></script>
+    <script
+      src="../js/react-dom.development.js"
+      type="text/javascript"
+    ></script>
+    <script src="../js/babel.min.js" type="text/javascript"></script>
+    <!-- Babel: translate jsx to js -->
+    <script type="text/babel">
+      class MyComponent extends React.Component {
+        state = {
+          opacity: 1,
+        };
+
+        // once component was mounted
+        componentDidMount() {
+          this.timer = setInterval(() => {
+            // get previous opacity
+            let { opacity } = this.state;
+            opacity = opacity - 0.001;
+            if (opacity <= 0) {
+              opacity = 1;
+            }
+            this.setState({ opacity });
+          }, 1);
+        }
+
+        // before componenent is gonna be unmounted
+        componentWillUnmount() {
+          clearInterval(this.timer);
+        }
+
+        render() {
+          return (
+            <div>
+              <h2 style={{ opacity: this.state.opacity }}>Enjoy React !</h2>
+              <button onClick={this.vanish}>Let's Go!</button>
+            </div>
+          );
+        }
+
+        vanish = () => {
+          // Unmount '<h2>Enjoy React !</h2>' from page
+          ReactDOM.unmountComponentAtNode(document.getElementById("container"));
+        };
+      }
+
+      ReactDOM.render(<MyComponent />, document.getElementById("container"));
+    </script>
+  </body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>State</title>
+  </head>
+  <body>
+    <!-- prepare a container -->
+    <div id="container"></div>
+
+    <!-- import react -->
+    <script src="../js/react.development.js" type="text/javascript"></script>
+    <script
+      src="../js/react-dom.development.js"
+      type="text/javascript"
+    ></script>
+    <script src="../js/babel.min.js" type="text/javascript"></script>
+    <!-- Babel: translate jsx to js -->
+    <script type="text/babel">
+      class Weather extends React.Component {
+        // 构造器: 继承React.Component并初始化
+        constructor(props) {
+          console.log("constructor");
+          super(props);
+          this.state = { isHot: true, temp: "42" };
+          // 将原型函数挂载到实例上，解决this的指向问题
+          this.changeWeather = this.changeWeather.bind(this);
+        }
+
+        // 渲染器
+        render() {
+          console.log("render");
+          const { isHot, temp } = this.state;
+          // onClick={changeWeather}而非{changeWeather()},
+          // changeWeather()会返回undefined，而changeWeather将函数赋值给click事件
+          return (
+            <h1 onClick={this.changeWeather} style={{ color: "orange" }}>
+              Today is{isHot ? " Hot ! " : " Cool ! "}
+              Temperature is {temp} !
+            </h1>
+          );
+        }
+
+        // 原型函数
+        changeWeather() {
+          // !!! 状态不可以直接更改，需要借助'setState'
+          console.log(this.state);
+          const isHot = this.state.isHot;
+          this.setState({ isHot: !isHot });
+          if (isHot) {
+            this.setState({ temp: "23" });
+          } else {
+            this.setState({ temp: "42" });
+          }
+        }
+      }
+      ReactDOM.render(<Weather />, document.getElementById("container"));
+    </script>
+  </body>
+</html>

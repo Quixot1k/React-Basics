@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JSX_RULES</title>
+  </head>
+
+  <style>
+    .title {
+      background-color: orange;
+      width: 200px;
+    }
+  </style>
+
+  <body>
+    <!-- prepare a container -->
+    <div id="container"></div>
+
+    <!-- import react -->
+    <script src="../js/react.development.js" type="text/javascript"></script>
+    <script
+      src="../js/react-dom.development.js"
+      type="text/javascript"
+    ></script>
+    <script src="../js/babel.min.js" type="text/javascript"></script>
+    <!-- Babel: translate jsx to js -->
+    <script type="text/babel">
+      const myId = "jsx";
+      const myData = "Hello_react";
+      const VDOM = (
+        <div>
+          <h2 className="title" id={myId}>
+            <span style={{ color: "darkblue", fontSize: "30px" }}>
+              {myData.toUpperCase()}
+            </span>
+          </h2>
+          <input type="text"></input>
+          <button></button>
+        </div>
+      );
+      ReactDOM.render(VDOM, document.getElementById("container"));
+      /*
+        1. 定义虚拟dom，不用引号
+        2. 标签中含有JS"表达式"时，用{}
+        3. 样式的类目用className，而非class
+        4. 内联样式，采用 style={{}} 的形式
+        5. 虚拟dom只有一唯一一个根标签
+        6. 标签必须闭合，如<input type='text'/>或者<input type='text'></input>
+        7. 标签首字母
+            （1）小写：即为html同名元素
+            （2）大写：react中的对应组件
+        */
+    </script>
+  </body>
+</html>

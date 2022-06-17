@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>useReducer</title>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script src="../js/react.development.js" type="text/javascript"></script>
+    <script
+      src="../js/react-dom.development.js"
+      type="text/javascript"
+    ></script>
+    <script src="../js/babel.min.js" type="text/javascript"></script>
+
+    <script type="text/babel">
+      // Function Component
+      function Demo() {
+        const initialState = { count: 0 };
+        const [state, dispatch] = React.useReducer(reducer, initialState);
+
+        // Reducer
+        function reducer(state = initialState, action) {
+          const { type, payload } = action;
+          switch (type) {
+            case "ADD":
+              return {
+                count: state.count + payload,
+              };
+            case "MIN":
+              return {
+                count: state.count - payload,
+              };
+            default:
+              return state;
+          }
+        }
+        return (
+          <div>
+            <h2>Counter: {state.count}</h2>
+            <button onClick={() => dispatch({ type: "ADD", payload: 1 })}>
+              +1
+            </button>
+            <button onClick={() => dispatch({ type: "MIN", payload: 1 })}>
+              -1
+            </button>
+          </div>
+        );
+      }
+
+      ReactDOM.render(<Demo />, document.getElementById("root"));
+    </script>
+  </body>
+</html>

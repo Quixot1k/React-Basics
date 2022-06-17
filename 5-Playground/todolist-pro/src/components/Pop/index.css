@@ -1,0 +1,26 @@
+.pop {
+  opacity: 90%;
+  position: fixed;
+  top: 15rem;
+  left: 0;
+  width: 37.5%;
+  margin-left: 31.25%;
+  transition: all 0.5s;
+}
+.inner {
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #fff;
+  margin-left: 10%;
+  width: 80%;
+  border: 2px solid cornflowerblue;
+  border-radius: 6px;
+  padding-bottom: 0.8rem;
+}
+.pop-header {
+  padding: 0.3rem;
+  text-align: center;
+  font-weight: 550;
+  font-size: 1.3rem;
+  background-color: cornflowerblue;
+  color: aliceblue;
+}

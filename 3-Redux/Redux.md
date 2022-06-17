@@ -1,0 +1,291 @@
+## Redux
+
+
+
+#### Action
+
+```jsx
+// A common function that is able to return an Action
+// Action is an object like {type: xxx, data: xxx} or a function
+
+import { ADD, MINUS } from "./constant";
+import store from "./store";
+
+export const createAddAction = (data) => {
+  return { type: ADD, data: data };
+};
+
+export const createMinusAction = (data) => {
+  return { type: MINUS, data: data };
+};
+
+export const createAddAsyncAction = (data, timer) => {
+  return () => {
+    setTimeout(() => {
+      store.dispatch(createAddAction(data));
+    }, timer);
+  };
+};
+
+```
+
+
+
+#### Store
+
+```jsx
+// const store = createStore(calculation_reducer);
+// export default store;
+
+export default createStore(counterReducer, applyMiddleware(thunk));
+
+```
+
+- Method:
+
+  ```jsx
+  // get State
+  store.getState()
+  
+  // Dispatch an Action
+  store.dispatch(action)
+  
+  // Detect changes in State
+  store.subscribe(() => {
+    this.setState({});
+  });
+  ```
+
+
+
+#### Reducer
+
+```jsx
+// initialize State or change State
+
+import { ADD, MINUS } from "./constant";
+
+const initState = 0;
+export default function calculationReducer(preState = initState, action) {
+  const { type, data } = action;
+  switch (type) {
+    case ADD:
+      return preState + data;
+    case MINUS:
+      return preState - data;
+    default:
+      return preState;
+  }
+}
+```
+
+
+
+
+
+## React-Redux
+
+
+
+#### Container & UI
+
+```jsx
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import {
+  addActionCreator,
+  minusActionCreator,
+  addAsyncActionCreator,
+} from "../../redux/actions/counterAction";
+
+// UI
+class CounterUI extends Component {
+  add = () => {
+    const val = this.selectNumber.value;
+    this.props.add(val * 1);
+  };
+  minus = () => {
+    const val = this.selectNumber.value;
+    this.props.minus(val * 1);
+  };
+  addWhenOdd = () => {
+    const val = this.selectNumber.value;
+    if (this.props.counter % 2 === 1) {
+      this.props.add(val * 1);
+    }
+  };
+  addWhenEven = () => {
+    const val = this.selectNumber.value;
+    if (this.props.counter % 2 === 0) {
+      this.props.add(val * 1);
+    }
+  };
+  addAsync = () => {
+    const time = 500;
+    const val = this.selectNumber.value;
+    this.props.addAsync(val * 1, time);
+  };
+  render() {
+    return (
+      <div>
+        <h2>Counter: {this.props.counter}</h2>
+        <h2>Person Number: {this.props.personList.length}</h2>
+        <select
+          ref={(curNode) => {
+            this.selectNumber = curNode;
+          }}
+        >
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+        </select>
+        <button onClick={this.add}>+</button>
+        <button onClick={this.minus}>-</button>
+        <button onClick={this.addWhenOdd}>+(counter is Odd)</button>
+        <button onClick={this.addWhenEven}>+counter is Even)</button>
+        <button onClick={this.addAsync}>+(Async)</button>
+      </div>
+    );
+  }
+}
+
+const CounterContainer = connect(
+  // mapStateToProps
+  (state) => ({ counter: state.counter, personList: state.personList }),
+  // mapDispatchToProps
+  {
+    add: addActionCreator,
+    minus: minusActionCreator,
+    addAsync: addAsyncActionCreator,
+  }
+)(CounterUI);
+
+export default CounterContainer;
+
+
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import {
+  addActionCreator,
+  minusActionCreator,
+  addAsyncActionCreator,
+} from "../../redux/actions/counterAction";
+
+class CounterUI extends Component {
+  add = () => {
+    const val = this.selectNumber.value;
+    this.props.add(val * 1);
+  };
+  minus = () => {
+    const val = this.selectNumber.value;
+    this.props.minus(val * 1);
+  };
+  addWhenOdd = () => {
+    const val = this.selectNumber.value;
+    if (this.props.counter % 2 === 1) {
+      this.props.add(val * 1);
+    }
+  };
+  addWhenEven = () => {
+    const val = this.selectNumber.value;
+    if (this.props.counter % 2 === 0) {
+      this.props.add(val * 1);
+    }
+  };
+  addAsync = () => {
+    const time = 500;
+    const val = this.selectNumber.value;
+    this.props.addAsync(val * 1, time);
+  };
+  render() {
+    return (
+      <div>
+        <h2>Counter: {this.props.counter}</h2>
+        <h2>Person Number: {this.props.personList.length}</h2>
+        <select
+          ref={(curNode) => {
+            this.selectNumber = curNode;
+          }}
+        >
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+        </select>
+        <button onClick={this.add}>+</button>
+        <button onClick={this.minus}>-</button>
+        <button onClick={this.addWhenOdd}>+(counter is Odd)</button>
+        <button onClick={this.addWhenEven}>+counter is Even)</button>
+        <button onClick={this.addAsync}>+(Async)</button>
+      </div>
+    );
+  }
+}
+
+const CounterContainer = connect(
+  // mapStateToProps
+  (state) => ({ counter: state.counter, personList: state.personList }),
+  // mapDispatchToProps
+  {
+    add: addActionCreator,
+    minus: minusActionCreator,
+    addAsync: addAsyncActionCreator,
+  }
+)(CounterUI);
+
+export default CounterContainer;
+
+
+// // mapStateToProps
+// const mapStateToProps = (state) => {
+//   return { counter: state };
+// };
+// // mapDispatchToProps
+// const mapDispatchToProps = (dispatch) => {
+//   return {
+//     add: (data) => {
+//       dispatch(addActionCreator(data));
+//     },
+//     minus: (data) => {
+//       dispatch(addActionCreator(data));
+//     },
+//     addAsync: (data, time) => {
+//       dispatch(addAsyncActionCreator(data, time));
+//     },
+//   };
+// };
+
+// const CounterContainer = connect(mapStateToProps, mapDispatchToProps)(CounterUI);
+```
+
+
+
+#### combineReduers()
+
+```jsx
+import { combineReducers } from "redux";
+import counterReducer from "./counterReducer";
+import personReducer from "./personReducer";
+
+/* State = {
+  counter:
+  personList:
+} */
+
+const allReducers = combineReducers({
+  counter: counterReducer,
+  personList: personReducer,
+});
+
+export default allReducers;
+```
+
+```jsx
+import { createStore, applyMiddleware } from "redux";
+import thunk from "redux-thunk";
+import allReducers from "./reducers";
+
+const store = createStore(allReducers, applyMiddleware(thunk));
+
+export default store;
+```
+

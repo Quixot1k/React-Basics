@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>1_Class</title>
+  </head>
+  <body>
+    <script type="text/javascript">
+      /*
+        1. 类 的构造器不是必须要写，要对实例进行初始化操作，如添加属性时才写
+        2. 若 B继承了A类，A中含有构造器，则B必须通过super调用
+    */
+      class Person {
+        constructor(name, age) {
+          this.name = name;
+          this.age = age;
+        }
+        test1() {
+          console.log(`my name is ${this.name},
+                I'm ${this.age} years old`);
+        }
+      }
+      const p1 = new Person("Tom", 18);
+      console.log(p1);
+      p1.test1();
+      p1.test1.call({ name: "Jerry", age: 19 });
+
+      class Stu extends Person {
+        constructor(name, age, id) {
+          super(name, age);
+          this.id = id;
+        }
+        test2() {
+          console.log("Im studying");
+        }
+      }
+      const s1 = new Stu("Sara", 12, 108);
+      console.log(s1);
+      s1.test1();
+      s1.test2();
+    </script>
+  </body>
+</html>

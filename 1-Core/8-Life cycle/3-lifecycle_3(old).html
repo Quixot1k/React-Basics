@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Life Cycle</title>
+  </head>
+  <body>
+    <!-- prepare a container -->
+    <div id="container"></div>
+
+    <!-- import react -->
+    <!--引入prop-types 对组件标签属性进行限制-->
+    <script src="../../js/prop-types.js" type="text/javascript"></script>
+    <script src="../js/react.development.js" type="text/javascript"></script>
+    <script
+      src="../js/react-dom.development.js"
+      type="text/javascript"
+    ></script>
+    <script src="../js/babel.min.js" type="text/javascript"></script>
+    <!-- Babel: translate jsx to js -->
+    <script type="text/babel">
+      const carList = ["Benz", "Audi", "BMW", "Ferrari", "Alpine"];
+
+      class MyComponentA extends React.Component {
+        state = {
+          carName: "Benz",
+          count: 0,
+        };
+
+        render() {
+          return (
+            <div>
+              <div>Show Cars</div>
+              <button onClick={this.changeCar}>changeCar</button>
+              <MyComponentB carName={this.state.carName} />
+            </div>
+          );
+        }
+
+        changeCar = () => {
+          let { carName, count } = this.state;
+
+          count = count + 1;
+          if (count > carList.length - 1) {
+            count = 0;
+          }
+
+          this.setState({ carName: carList[count], count: count });
+          console.log(this);
+        };
+      }
+
+      class MyComponentB extends React.Component {
+        componentWillReceiveProps() {
+          console.log("B - componentWillReceiveProps");
+        }
+        render() {
+          return (
+            <div>
+              <div>Car is {this.props.carName}</div>
+            </div>
+          );
+        }
+      }
+
+      /*
+    NOTES:
+    1. Initializing
+        1. Constructor()
+        2. componentWillMount()
+        3. render()
+        4. **componentDidMount()**
+    
+    2. Updating
+        1. shouldComponentUpdate()
+        2. componentWillUpdate()
+        3. render()
+        4. componentDidUpdate()
+    
+    3. Unmounting
+        1. **componentWillUnmount()**
+    */
+      ReactDOM.render(<MyComponentA />, document.getElementById("container"));
+    </script>
+  </body>
+</html>
